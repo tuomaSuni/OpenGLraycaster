@@ -1,0 +1,8 @@
+[
+{
+  "directory": "C:/Users/tuomas/Documents/OpenGLraycaster/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/OpenGLraycaster.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\OpenGLraycaster.dir\\src\\main.cpp.obj -c C:\\Users\\tuomas\\Documents\\OpenGLraycaster\\src\\main.cpp",
+  "file": "C:/Users/tuomas/Documents/OpenGLraycaster/src/main.cpp",
+  "output": "CMakeFiles/OpenGLraycaster.dir/src/main.cpp.obj"
+}
+]
