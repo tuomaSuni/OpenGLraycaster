@@ -1,16 +1,19 @@
 cmake_minimum_required(VERSION 3.10)
 project(OpenGLraycaster)
 
+# Set the C++ standard
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Specify the include directory for GLFW
-include_directories(${CMAKE_SOURCE_DIR}/include)
-
-# Link directories where GLFW and OpenGL library files are located
-link_directories(${CMAKE_SOURCE_DIR}/lib)
+# Collect all source files from the src directory
+file(GLOB SOURCES "src/*.cpp")
 
 # Add executable
-add_executable(OpenGLraycaster src/main.cpp src/App.cpp)
+add_executable(OpenGLraycaster ${SOURCES})
 
-# Link the GLFW and OpenGL libraries
-target_link_libraries(OpenGLraycaster glfw3 opengl32)
+# Specify include directories for the target
+target_include_directories(OpenGLraycaster PRIVATE ${CMAKE_SOURCE_DIR}/include)
+
+# Specify library directories and link libraries
+# Note: You may need to adjust these lines if you have different naming conventions or library types
+target_link_libraries(OpenGLraycaster PRIVATE ${CMAKE_SOURCE_DIR}/lib/libglfw3.a opengl32)

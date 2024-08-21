@@ -1,6 +1,6 @@
 #include "App.h"
 
-App::App()
+App::App() : player() // Initialize Player instance
 {
 
 }
@@ -17,29 +17,42 @@ void App::Initialize()
         throw std::runtime_error("GLFW initialization failed");
     }
 
-    // Create a windowed mode window and its OpenGL context
-    window = glfwCreateWindow(640, 480, "Hello GLFW", NULL, NULL);
+    videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+    window = glfwCreateWindow(windowWidth, windowHeight, "OpenGLraycaster", NULL, NULL);
     if (!window) {
         glfwTerminate();
         throw std::runtime_error("Window creation failed");
     }
 
-    // Make the window's context current
     glfwMakeContextCurrent(window);
+    glViewport(0, 0, windowWidth, windowHeight);
+    glOrtho(0, windowWidth, windowHeight, 0, -1, 1); // Orthographic projection
+
+    int xpos = (videoMode->width - windowWidth) / 2;
+    int ypos = (videoMode->height - windowHeight) / 2;
+    glfwSetWindowPos(window, xpos, ypos);
+
+    // Set up key callback to handle movement
+    glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+        Player* player = reinterpret_cast<Player*>(glfwGetWindowUserPointer(window));
+        if (player) {
+            player->Move(key, action); // Pass key and action to Move
+        }
+    });
+
+    glfwSetWindowUserPointer(window, &player);
 }
 
 void App::Loop()
 {
-    // Main loop
     while (!glfwWindowShouldClose(window)) {
-        // Set the background color to a color of your choice
-        glClearColor(0.0f, 0.5f, 0.8f, 1.0f); // RGB and Alpha values
+        
+        glClearColor(0.0f, 0.5f, 0.8f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // Swap front and back buffers
-        glfwSwapBuffers(window);
+        player.Render(); // Render the player
 
-        // Poll for and process events
+        glfwSwapBuffers(window);
         glfwPollEvents();
     }
     Terminate();
@@ -47,7 +60,6 @@ void App::Loop()
 
 void App::Terminate()
 {
-    // Clean up and exit
     glfwDestroyWindow(window);
     glfwTerminate();
 }

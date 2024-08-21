@@ -103,4 +103,5 @@ CMakeFiles/OpenGLraycaster.dir/src/main.cpp.obj: \
  C:/msys64/mingw64/include/c++/13.2.0/tuple \
  C:/Users/tuomas/OpenGLraycaster/include/GLFW/glfw3.h \
  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include/stdint.h \
- C:/msys64/mingw64/include/stdint.h C:/msys64/mingw64/include/GL/gl.h
+ C:/msys64/mingw64/include/stdint.h C:/msys64/mingw64/include/GL/gl.h \
+ C:\Users\tuomas\OpenGLraycaster\src\Player.h
