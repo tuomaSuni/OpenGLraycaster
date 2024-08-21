@@ -10,7 +10,7 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 link_directories(${CMAKE_SOURCE_DIR}/lib)
 
 # Add executable
-add_executable(OpenGLraycaster src/main.cpp)
+add_executable(OpenGLraycaster src/main.cpp src/App.cpp)
 
 # Link the GLFW and OpenGL libraries
 target_link_libraries(OpenGLraycaster glfw3 opengl32)

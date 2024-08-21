@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "OpenGLraycaster::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-OpenGLraycaster-Debug-cdccee72c44950282423.json",
+					"jsonFile" : "target-OpenGLraycaster-Debug-05fb7731f1a989bdf4dc.json",
 					"name" : "OpenGLraycaster",
 					"projectIndex" : 0
 				}
@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/tuomas/Documents/OpenGLraycaster/build",
-		"source" : "C:/Users/tuomas/Documents/OpenGLraycaster"
+		"build" : "C:/Users/tuomas/OpenGLraycaster/build",
+		"source" : "C:/Users/tuomas/OpenGLraycaster"
 	},
 	"version" : 
 	{

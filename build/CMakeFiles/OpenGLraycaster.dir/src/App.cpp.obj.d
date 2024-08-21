@@ -1,5 +1,5 @@
-CMakeFiles/OpenGLraycaster.dir/src/main.cpp.obj: \
- C:\Users\tuomas\OpenGLraycaster\src\main.cpp \
+CMakeFiles/OpenGLraycaster.dir/src/App.cpp.obj: \
+ C:\Users\tuomas\OpenGLraycaster\src\App.cpp \
  C:\Users\tuomas\OpenGLraycaster\src\App.h \
  C:/msys64/mingw64/include/c++/13.2.0/stdexcept \
  C:/msys64/mingw64/include/c++/13.2.0/exception \

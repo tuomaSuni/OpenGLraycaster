@@ -8,7 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "C:/Users/tuomas/Documents/OpenGLraycaster/src/main.cpp" "CMakeFiles/OpenGLraycaster.dir/src/main.cpp.obj" "gcc" "CMakeFiles/OpenGLraycaster.dir/src/main.cpp.obj.d"
+  "C:/Users/tuomas/OpenGLraycaster/src/App.cpp" "CMakeFiles/OpenGLraycaster.dir/src/App.cpp.obj" "gcc" "CMakeFiles/OpenGLraycaster.dir/src/App.cpp.obj.d"
+  "C:/Users/tuomas/OpenGLraycaster/src/main.cpp" "CMakeFiles/OpenGLraycaster.dir/src/main.cpp.obj" "gcc" "CMakeFiles/OpenGLraycaster.dir/src/main.cpp.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

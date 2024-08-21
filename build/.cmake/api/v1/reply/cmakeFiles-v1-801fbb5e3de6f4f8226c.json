@@ -154,8 +154,8 @@
 	"kind" : "cmakeFiles",
 	"paths" : 
 	{
-		"build" : "C:/Users/tuomas/Documents/OpenGLraycaster/build",
-		"source" : "C:/Users/tuomas/Documents/OpenGLraycaster"
+		"build" : "C:/Users/tuomas/OpenGLraycaster/build",
+		"source" : "C:/Users/tuomas/OpenGLraycaster"
 	},
 	"version" : 
 	{

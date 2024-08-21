@@ -1,8 +1,14 @@
 [
 {
-  "directory": "C:/Users/tuomas/Documents/OpenGLraycaster/build",
-  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/OpenGLraycaster.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\OpenGLraycaster.dir\\src\\main.cpp.obj -c C:\\Users\\tuomas\\Documents\\OpenGLraycaster\\src\\main.cpp",
-  "file": "C:/Users/tuomas/Documents/OpenGLraycaster/src/main.cpp",
+  "directory": "C:/Users/tuomas/OpenGLraycaster/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/OpenGLraycaster.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\OpenGLraycaster.dir\\src\\main.cpp.obj -c C:\\Users\\tuomas\\OpenGLraycaster\\src\\main.cpp",
+  "file": "C:/Users/tuomas/OpenGLraycaster/src/main.cpp",
   "output": "CMakeFiles/OpenGLraycaster.dir/src/main.cpp.obj"
+},
+{
+  "directory": "C:/Users/tuomas/OpenGLraycaster/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/OpenGLraycaster.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\OpenGLraycaster.dir\\src\\App.cpp.obj -c C:\\Users\\tuomas\\OpenGLraycaster\\src\\App.cpp",
+  "file": "C:/Users/tuomas/OpenGLraycaster/src/App.cpp",
+  "output": "CMakeFiles/OpenGLraycaster.dir/src/App.cpp.obj"
 }
 ]
