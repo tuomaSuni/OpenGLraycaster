@@ -1,7 +1,14 @@
 #include "Player.h"
 
-Player::Player() : posX(400), posY(300) // Start at center of window
+Player::Player()
 {
+    posX = 320;
+    posY = 320;
+
+    angle = 0;
+
+    delX = cos(angle) * MOVEMENT_SPEED;
+    delY = sin(angle) * MOVEMENT_SPEED;
 }
 
 void Player::Move(int key, int action)
@@ -9,16 +16,30 @@ void Player::Move(int key, int action)
     if (action == GLFW_PRESS || action == GLFW_REPEAT) {
         switch (key) {
             case GLFW_KEY_LEFT:
-                posX -= 5.0f;
+                angle -= ANGLE_INCREMENT;
+                if (angle < 0)
+                {
+                    angle += 2 * PI;
+                }
+                delX = cos(angle) * MOVEMENT_SPEED;
+                delY = sin(angle) * MOVEMENT_SPEED;
                 break;
             case GLFW_KEY_RIGHT:
-                posX += 5.0f;
+                angle += ANGLE_INCREMENT;
+                if (angle > 2 * PI)
+                {
+                    angle -= 2 * PI;
+                }
+                delX = cos(angle) * MOVEMENT_SPEED;
+                delY = sin(angle) * MOVEMENT_SPEED;
                 break;
             case GLFW_KEY_UP:
-                posY -= 5.0f;
+                posX += delX;
+                posY += delY;
                 break;
             case GLFW_KEY_DOWN:
-                posY += 5.0f;
+                posX -= delX;
+                posY -= delY;
                 break;
         }
     }
@@ -26,13 +47,18 @@ void Player::Move(int key, int action)
 
 void Player::Render()
 {
-    glColor3f(1.0f, 0.0f, 0.0f); // Set color to red
+    glColor3f(0.0f, 1.0f, 1.0f); // Set color to cyan
+    glPointSize(8);
 
-    // Render the player as a small square
-    glBegin(GL_QUADS);
-    glVertex2f(posX - 5, posY - 5); // Bottom-left corner
-    glVertex2f(posX + 5, posY - 5); // Bottom-right corner
-    glVertex2f(posX + 5, posY + 5); // Top-right corner
-    glVertex2f(posX - 5, posY + 5); // Top-left corner
+    glBegin(GL_POINTS);
+    glVertex2i(posX, posY);
+    glEnd();
+
+    glColor3f(0.7f, 0.7f, 1.0f); // Set color to cyan
+
+    glLineWidth(3);
+    glBegin(GL_LINES);
+    glVertex2i(posX, posY);
+    glVertex2i(posX+delX*2, posY+delY*2);
     glEnd();
 }
