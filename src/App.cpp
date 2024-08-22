@@ -1,8 +1,9 @@
 #include "App.h"
 
-App::App() : player() // Initialize Player instance
+App::App()
 {
-
+    player = Player();
+    grid = Grid();
 }
 
 void App::Execute()
@@ -47,9 +48,10 @@ void App::Loop()
 {
     while (!glfwWindowShouldClose(window)) {
         
-        glClearColor(0.0f, 0.5f, 0.8f, 1.0f);
+        glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        grid.Render();
         player.Render(); // Render the player
 
         glfwSwapBuffers(window);

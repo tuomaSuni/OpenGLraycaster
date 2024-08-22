@@ -83,11 +83,26 @@ CMakeFiles/OpenGLraycaster.dir/src/App.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/OpenGLraycaster.dir/src/App.cpp.s"
 	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\tuomas\OpenGLraycaster\src\App.cpp -o CMakeFiles\OpenGLraycaster.dir\src\App.cpp.s
 
+CMakeFiles/OpenGLraycaster.dir/src/Grid.cpp.obj: CMakeFiles/OpenGLraycaster.dir/flags.make
+CMakeFiles/OpenGLraycaster.dir/src/Grid.cpp.obj: CMakeFiles/OpenGLraycaster.dir/includes_CXX.rsp
+CMakeFiles/OpenGLraycaster.dir/src/Grid.cpp.obj: C:/Users/tuomas/OpenGLraycaster/src/Grid.cpp
+CMakeFiles/OpenGLraycaster.dir/src/Grid.cpp.obj: CMakeFiles/OpenGLraycaster.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\tuomas\OpenGLraycaster\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/OpenGLraycaster.dir/src/Grid.cpp.obj"
+	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/OpenGLraycaster.dir/src/Grid.cpp.obj -MF CMakeFiles\OpenGLraycaster.dir\src\Grid.cpp.obj.d -o CMakeFiles\OpenGLraycaster.dir\src\Grid.cpp.obj -c C:\Users\tuomas\OpenGLraycaster\src\Grid.cpp
+
+CMakeFiles/OpenGLraycaster.dir/src/Grid.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/OpenGLraycaster.dir/src/Grid.cpp.i"
+	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\tuomas\OpenGLraycaster\src\Grid.cpp > CMakeFiles\OpenGLraycaster.dir\src\Grid.cpp.i
+
+CMakeFiles/OpenGLraycaster.dir/src/Grid.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/OpenGLraycaster.dir/src/Grid.cpp.s"
+	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\tuomas\OpenGLraycaster\src\Grid.cpp -o CMakeFiles\OpenGLraycaster.dir\src\Grid.cpp.s
+
 CMakeFiles/OpenGLraycaster.dir/src/Player.cpp.obj: CMakeFiles/OpenGLraycaster.dir/flags.make
 CMakeFiles/OpenGLraycaster.dir/src/Player.cpp.obj: CMakeFiles/OpenGLraycaster.dir/includes_CXX.rsp
 CMakeFiles/OpenGLraycaster.dir/src/Player.cpp.obj: C:/Users/tuomas/OpenGLraycaster/src/Player.cpp
 CMakeFiles/OpenGLraycaster.dir/src/Player.cpp.obj: CMakeFiles/OpenGLraycaster.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\tuomas\OpenGLraycaster\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/OpenGLraycaster.dir/src/Player.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\tuomas\OpenGLraycaster\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/OpenGLraycaster.dir/src/Player.cpp.obj"
 	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/OpenGLraycaster.dir/src/Player.cpp.obj -MF CMakeFiles\OpenGLraycaster.dir\src\Player.cpp.obj.d -o CMakeFiles\OpenGLraycaster.dir\src\Player.cpp.obj -c C:\Users\tuomas\OpenGLraycaster\src\Player.cpp
 
 CMakeFiles/OpenGLraycaster.dir/src/Player.cpp.i: cmake_force
@@ -102,7 +117,7 @@ CMakeFiles/OpenGLraycaster.dir/src/main.cpp.obj: CMakeFiles/OpenGLraycaster.dir/
 CMakeFiles/OpenGLraycaster.dir/src/main.cpp.obj: CMakeFiles/OpenGLraycaster.dir/includes_CXX.rsp
 CMakeFiles/OpenGLraycaster.dir/src/main.cpp.obj: C:/Users/tuomas/OpenGLraycaster/src/main.cpp
 CMakeFiles/OpenGLraycaster.dir/src/main.cpp.obj: CMakeFiles/OpenGLraycaster.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\tuomas\OpenGLraycaster\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/OpenGLraycaster.dir/src/main.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\tuomas\OpenGLraycaster\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/OpenGLraycaster.dir/src/main.cpp.obj"
 	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/OpenGLraycaster.dir/src/main.cpp.obj -MF CMakeFiles\OpenGLraycaster.dir\src\main.cpp.obj.d -o CMakeFiles\OpenGLraycaster.dir\src\main.cpp.obj -c C:\Users\tuomas\OpenGLraycaster\src\main.cpp
 
 CMakeFiles/OpenGLraycaster.dir/src/main.cpp.i: cmake_force
@@ -116,6 +131,7 @@ CMakeFiles/OpenGLraycaster.dir/src/main.cpp.s: cmake_force
 # Object files for target OpenGLraycaster
 OpenGLraycaster_OBJECTS = \
 "CMakeFiles/OpenGLraycaster.dir/src/App.cpp.obj" \
+"CMakeFiles/OpenGLraycaster.dir/src/Grid.cpp.obj" \
 "CMakeFiles/OpenGLraycaster.dir/src/Player.cpp.obj" \
 "CMakeFiles/OpenGLraycaster.dir/src/main.cpp.obj"
 
@@ -123,6 +139,7 @@ OpenGLraycaster_OBJECTS = \
 OpenGLraycaster_EXTERNAL_OBJECTS =
 
 OpenGLraycaster.exe: CMakeFiles/OpenGLraycaster.dir/src/App.cpp.obj
+OpenGLraycaster.exe: CMakeFiles/OpenGLraycaster.dir/src/Grid.cpp.obj
 OpenGLraycaster.exe: CMakeFiles/OpenGLraycaster.dir/src/Player.cpp.obj
 OpenGLraycaster.exe: CMakeFiles/OpenGLraycaster.dir/src/main.cpp.obj
 OpenGLraycaster.exe: CMakeFiles/OpenGLraycaster.dir/build.make
@@ -130,7 +147,7 @@ OpenGLraycaster.exe: C:/Users/tuomas/OpenGLraycaster/lib/libglfw3.a
 OpenGLraycaster.exe: CMakeFiles/OpenGLraycaster.dir/linkLibs.rsp
 OpenGLraycaster.exe: CMakeFiles/OpenGLraycaster.dir/objects1.rsp
 OpenGLraycaster.exe: CMakeFiles/OpenGLraycaster.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\tuomas\OpenGLraycaster\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable OpenGLraycaster.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\tuomas\OpenGLraycaster\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable OpenGLraycaster.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\OpenGLraycaster.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

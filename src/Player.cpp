@@ -24,7 +24,7 @@ void Player::Move(int key, int action)
     }
 }
 
-void Player::Render() const
+void Player::Render()
 {
     glColor3f(1.0f, 0.0f, 0.0f); // Set color to red
 

@@ -152,6 +152,30 @@ src/App.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLraycaster.dir\build.make CMakeFiles/OpenGLraycaster.dir/src/App.cpp.s
 .PHONY : src/App.cpp.s
 
+src/Grid.obj: src/Grid.cpp.obj
+.PHONY : src/Grid.obj
+
+# target to build an object file
+src/Grid.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLraycaster.dir\build.make CMakeFiles/OpenGLraycaster.dir/src/Grid.cpp.obj
+.PHONY : src/Grid.cpp.obj
+
+src/Grid.i: src/Grid.cpp.i
+.PHONY : src/Grid.i
+
+# target to preprocess a source file
+src/Grid.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLraycaster.dir\build.make CMakeFiles/OpenGLraycaster.dir/src/Grid.cpp.i
+.PHONY : src/Grid.cpp.i
+
+src/Grid.s: src/Grid.cpp.s
+.PHONY : src/Grid.s
+
+# target to generate assembly for a file
+src/Grid.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLraycaster.dir\build.make CMakeFiles/OpenGLraycaster.dir/src/Grid.cpp.s
+.PHONY : src/Grid.cpp.s
+
 src/Player.obj: src/Player.cpp.obj
 .PHONY : src/Player.obj
 
@@ -212,6 +236,9 @@ help:
 	@echo ... src/App.obj
 	@echo ... src/App.i
 	@echo ... src/App.s
+	@echo ... src/Grid.obj
+	@echo ... src/Grid.i
+	@echo ... src/Grid.s
 	@echo ... src/Player.obj
 	@echo ... src/Player.i
 	@echo ... src/Player.s

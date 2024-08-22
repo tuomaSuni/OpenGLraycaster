@@ -15,5 +15,4 @@ add_executable(OpenGLraycaster ${SOURCES})
 target_include_directories(OpenGLraycaster PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
 # Specify library directories and link libraries
-# Note: You may need to adjust these lines if you have different naming conventions or library types
 target_link_libraries(OpenGLraycaster PRIVATE ${CMAKE_SOURCE_DIR}/lib/libglfw3.a opengl32)
