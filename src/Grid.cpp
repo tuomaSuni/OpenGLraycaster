@@ -21,7 +21,7 @@ void Grid::Render() {
             float x1 = x0 + blockWidth;
             float y1 = y0 + blockHeight;
 
-            if (grid[y][x] == 1) {
+            if (grid[y * GRID_WIDTH + x] == 1) {
                 glColor3f(1.0f, 1.0f, 1.0f); // White block
             } else {
                 glColor3f(0.0f, 0.0f, 0.0f); // Black block

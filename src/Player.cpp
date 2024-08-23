@@ -5,7 +5,7 @@ Player::Player()
     posX = 320;
     posY = 320;
 
-    angle = 0;
+    angle = -RAD;
 
     delX = cos(angle) * MOVEMENT_SPEED;
     delY = sin(angle) * MOVEMENT_SPEED;
@@ -52,13 +52,5 @@ void Player::Render()
 
     glBegin(GL_POINTS);
     glVertex2i(posX, posY);
-    glEnd();
-
-    glColor3f(0.7f, 0.7f, 1.0f); // Set color to cyan
-
-    glLineWidth(3);
-    glBegin(GL_LINES);
-    glVertex2i(posX, posY);
-    glVertex2i(posX+delX*2, posY+delY*2);
     glEnd();
 }

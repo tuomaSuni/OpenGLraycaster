@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/OpenGLraycaster.dir/src/Grid.cpp.obj.d"
   "CMakeFiles/OpenGLraycaster.dir/src/Player.cpp.obj"
   "CMakeFiles/OpenGLraycaster.dir/src/Player.cpp.obj.d"
+  "CMakeFiles/OpenGLraycaster.dir/src/Rays.cpp.obj"
+  "CMakeFiles/OpenGLraycaster.dir/src/Rays.cpp.obj.d"
   "CMakeFiles/OpenGLraycaster.dir/src/main.cpp.obj"
   "CMakeFiles/OpenGLraycaster.dir/src/main.cpp.obj.d"
   "OpenGLraycaster.exe"

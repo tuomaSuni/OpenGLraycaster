@@ -4,6 +4,7 @@ App::App()
 {
     player = Player();
     grid = Grid();
+    rays = Rays();
 }
 
 void App::Execute()
@@ -51,9 +52,11 @@ void App::Loop()
         glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        
         grid.Render();
         player.Render(); // Render the player
-
+        rays.Render(grid, player);
+        
         glfwSwapBuffers(window);
         glfwPollEvents();
     }

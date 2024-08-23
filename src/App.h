@@ -5,6 +5,7 @@
 
 #include "Player.h"
 #include "Grid.h"
+#include "Rays.h"
 
 class App {
 public:
@@ -15,7 +16,7 @@ public:
     void Initialize();
     void Loop();
     void Terminate();
-
+    
 private:
 
     GLFWwindow* window = NULL;
@@ -26,4 +27,5 @@ private:
 
     Player player;
     Grid grid;
+    Rays rays;
 };

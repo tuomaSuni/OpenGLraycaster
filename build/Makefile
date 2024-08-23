@@ -200,6 +200,30 @@ src/Player.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLraycaster.dir\build.make CMakeFiles/OpenGLraycaster.dir/src/Player.cpp.s
 .PHONY : src/Player.cpp.s
 
+src/Rays.obj: src/Rays.cpp.obj
+.PHONY : src/Rays.obj
+
+# target to build an object file
+src/Rays.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLraycaster.dir\build.make CMakeFiles/OpenGLraycaster.dir/src/Rays.cpp.obj
+.PHONY : src/Rays.cpp.obj
+
+src/Rays.i: src/Rays.cpp.i
+.PHONY : src/Rays.i
+
+# target to preprocess a source file
+src/Rays.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLraycaster.dir\build.make CMakeFiles/OpenGLraycaster.dir/src/Rays.cpp.i
+.PHONY : src/Rays.cpp.i
+
+src/Rays.s: src/Rays.cpp.s
+.PHONY : src/Rays.s
+
+# target to generate assembly for a file
+src/Rays.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OpenGLraycaster.dir\build.make CMakeFiles/OpenGLraycaster.dir/src/Rays.cpp.s
+.PHONY : src/Rays.cpp.s
+
 src/main.obj: src/main.cpp.obj
 .PHONY : src/main.obj
 
@@ -242,6 +266,9 @@ help:
 	@echo ... src/Player.obj
 	@echo ... src/Player.i
 	@echo ... src/Player.s
+	@echo ... src/Rays.obj
+	@echo ... src/Rays.i
+	@echo ... src/Rays.s
 	@echo ... src/main.obj
 	@echo ... src/main.i
 	@echo ... src/main.s
