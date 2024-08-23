@@ -23,5 +23,5 @@ public:
 private:
 
     static constexpr float MOVEMENT_SPEED = 5.0f;
-    static constexpr float ANGLE_INCREMENT = 0.0174533;
+    static constexpr float ANGLE_INCREMENT = 8 * RAD;
 };

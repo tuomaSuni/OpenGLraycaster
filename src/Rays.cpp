@@ -9,13 +9,20 @@ void Rays::Render(Grid &grid, Player &player) {
     int r, mx, my, mp, dof;
     float rx, ry, ra, xo, yo;
 
-    ra = player.angle;  // Accessing the player's angle
-
-    for(r = 0; r < 1; r++)
+    ra = player.angle - RAD * 28;
+    
+    if (ra < 0)
     {
+        ra += 2 * PI;
+    }
 
-        // Direction 1
+    if (ra > 2 * PI)
+    {
+        ra -= 2 * PI;
+    }
 
+    for(r = 0; r < 64; r++)
+    {
         dof = 0;
         float disH = 1000000;
 
@@ -58,9 +65,6 @@ void Rays::Render(Grid &grid, Player &player) {
             }
         }
 
-        // Direction 0
-
-
         dof = 0;
         float disV = 1000000;
         float vx = player.posX;
@@ -102,21 +106,73 @@ void Rays::Render(Grid &grid, Player &player) {
             }
         }
 
+
+        float disT;
+
+
         if (disV < disH) {
             rx = vx;
             ry = vy;
+            disT = disV;
+            glColor3f(0.0f, 0.9f, 0.9f);
         }
         if (disV > disH) {
             rx = hx;
             ry = hy;
+            disT = disH;
+            glColor3f(0.0f, 0.7f, 0.7f);
         }
 
-        glColor3f(0.0f, 1.0f, 1.0f);
+        
         glLineWidth(3);
         glBegin(GL_LINES);
         glVertex2i(player.posX, player.posY);
         glVertex2i(rx, ry);
         glEnd();
+
+        float ca=player.angle-ra;
+        if (ca < 0)
+        {
+            ca += 2 * PI;
+        }
+        if (ca > 2 * PI)
+        {
+            ca -= 2 * PI;
+        }
+        disT = disT * cos(ca);
+        
+
+        float lineH = (64*640)/disT;
+        float lineO = 640/2-lineH/2;
+        if (lineH > 640)
+        {
+            lineH = 640;
+        }
+        glLineWidth(10);
+        glBegin(GL_LINES);
+        glVertex2i(r*10+640,lineO);
+        glVertex2i(r*10+640,lineH+lineO);
+        glEnd();
+
+
+
+
+
+
+        ra += RAD;
+
+        if (ra < 0)
+        {
+            ra += 2 * PI;
+        }
+
+        if (ra > 2 * PI)
+        {
+            ra -= 2 * PI;
+        }
+
+
+
     }
 }
 

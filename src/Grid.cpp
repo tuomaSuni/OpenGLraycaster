@@ -7,16 +7,17 @@ Grid::Grid() {
 
 void Grid::Render() {
     // Define the padding between blocks
-    const float padding = 1.0f; // Padding in pixels
+    const float padding = 2.0f; // Padding in pixels
     
     // Calculate block width and height with padding
     float blockWidth = (640.0f / GRID_WIDTH) - padding;
     float blockHeight = (640.0f / GRID_HEIGHT) - padding;
 
+    float horizontalOffset = -2.0f;
     // Render blocks with padding
     for (int y = 0; y < GRID_HEIGHT; ++y) {
         for (int x = 0; x < GRID_WIDTH; ++x) {
-            float x0 = x * (blockWidth + padding);
+            float x0 = x * (blockWidth + padding) + horizontalOffset;
             float y0 = y * (blockHeight + padding);
             float x1 = x0 + blockWidth;
             float y1 = y0 + blockHeight;
