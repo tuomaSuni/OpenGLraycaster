@@ -1,70 +1,103 @@
+// App.cpp
+
 #include "App.h"
 
 App::App()
-{
-    player = Player();
-    grid = Grid();
-    rays = Rays();
-}
+    : window(nullptr, glfwDestroyWindow) {}
 
-void App::Execute()
-{
+void App::Execute() {
     Initialize();
     Loop();
 }
 
-void App::Initialize()
-{
+void App::Initialize() {
+    InitializeGLFW();
+    CreateWindow();
+    SetOpenGLSettings();
+    SetCallbacks();
+}
+
+void App::InitializeGLFW() {
     if (!glfwInit()) {
         throw std::runtime_error("GLFW initialization failed");
     }
+}
 
+void App::CreateWindow() {
     videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-    window = glfwCreateWindow(windowWidth, windowHeight, "OpenGLraycaster", NULL, NULL);
+    if (!videoMode) {
+        glfwTerminate();
+        throw std::runtime_error("Failed to get video mode");
+    }
+
+    window.reset(glfwCreateWindow(windowWidth, windowHeight, "OpenGL Raycaster", nullptr, nullptr));
     if (!window) {
         glfwTerminate();
         throw std::runtime_error("Window creation failed");
     }
+}
 
-    glfwMakeContextCurrent(window);
+void App::SetOpenGLSettings() {
+    glfwSetWindowAttrib(window.get(), GLFW_RESIZABLE, GLFW_FALSE);
+    glfwMakeContextCurrent(window.get());
     glViewport(0, 0, windowWidth, windowHeight);
     glOrtho(0, windowWidth, windowHeight, 0, -1, 1); // Orthographic projection
 
     int xpos = (videoMode->width - windowWidth) / 2;
     int ypos = (videoMode->height - windowHeight) / 2;
-    glfwSetWindowPos(window, xpos, ypos);
+    glfwSetWindowPos(window.get(), xpos, ypos);
 
-    // Set up key callback to handle movement
-    glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
-        Player* player = reinterpret_cast<Player*>(glfwGetWindowUserPointer(window));
-        if (player) {
-            player->Move(key, action); // Pass key and action to Move
-        }
-    });
-
-    glfwSetWindowUserPointer(window, &player);
+    glfwSetInputMode(window.get(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
-void App::Loop()
-{
-    while (!glfwWindowShouldClose(window)) {
-        
+void App::SetCallbacks() {
+    glfwSetKeyCallback(window.get(), KeyCallback);
+    glfwSetCursorPosCallback(window.get(), MouseCallback);
+    glfwSetWindowUserPointer(window.get(), this); // Set the window user pointer to this instance
+}
+
+void App::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    App* app = reinterpret_cast<App*>(glfwGetWindowUserPointer(window));
+    if (app) {
+        app->KeyCallbackImpl(key, action);
+    }
+}
+
+void App::KeyCallbackImpl(int key, int action) {
+    player.Move(key, action);
+}
+
+void App::MouseCallback(GLFWwindow* window, double xpos, double ypos) {
+    App* app = reinterpret_cast<App*>(glfwGetWindowUserPointer(window));
+    if (app) {
+        app->MouseCallbackImpl(xpos, ypos);
+    }
+}
+
+void App::MouseCallbackImpl(double xpos, double ypos) {
+    player.MouseMovement(xpos, ypos, deltaTime);
+}
+
+void App::Loop() {
+    while (!glfwWindowShouldClose(window.get())) {
+        float currentFrameTime = static_cast<float>(glfwGetTime());
+        deltaTime = currentFrameTime - lastFrameTime;
+        lastFrameTime = currentFrameTime;
+
         glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        
+        player.Update(deltaTime); // Update the player's position
+
         grid.Render();
-        player.Render(); // Render the player
+        player.Render();
         rays.Render(grid, player);
-        
-        glfwSwapBuffers(window);
+
+        glfwSwapBuffers(window.get());
         glfwPollEvents();
     }
-    Terminate();
 }
 
-void App::Terminate()
-{
-    glfwDestroyWindow(window);
+void App::Terminate() {
     glfwTerminate();
 }
