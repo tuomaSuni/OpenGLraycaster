@@ -32,7 +32,7 @@ private:
     std::unique_ptr<GLFWwindow, decltype(&glfwDestroyWindow)> window;
     const GLFWvidmode* videoMode = nullptr;
     
-    int windowWidth = 1280;
+    int windowWidth = 640;
     int windowHeight = 640;
     
     float lastFrameTime = 0.0f;

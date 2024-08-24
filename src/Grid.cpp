@@ -27,7 +27,7 @@ void Grid::Render() {
             } else {
                 glColor3f(0.0f, 0.0f, 0.0f); // Black block
             }
-
+            
             glBegin(GL_QUADS);
             glVertex2f(x0, y0);
             glVertex2f(x1, y0);

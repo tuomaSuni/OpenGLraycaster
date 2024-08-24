@@ -6,6 +6,22 @@ Rays::Rays()
 
 void Rays::Render(Grid &grid, Player &player) {
 
+    glColor3f(0.2f, 0.6f, 0.4f);
+    glBegin(GL_QUADS);
+    glVertex2f(0, 320); // Bottom-left
+    glVertex2f(640, 320); // Bottom-right
+    glVertex2f(640,  640); // Top-right
+    glVertex2f(0,  640); // Top-left
+    glEnd();
+
+    glColor3f(0.5f, 0.77f, 0.9f);
+    glBegin(GL_QUADS);
+    glVertex2f(0, 0); // Bottom-left
+    glVertex2f(640, 0); // Bottom-right
+    glVertex2f(640, 320); // Top-right
+    glVertex2f(0,  320); // Top-left
+    glEnd();
+
     int r, mx, my, mp, dof;
     float rx, ry, ra, xo, yo;
 
@@ -21,7 +37,7 @@ void Rays::Render(Grid &grid, Player &player) {
         ra -= 2 * PI;
     }
 
-    for(r = 0; r < 64; r++)
+    for(r = 0; r < 128; r++)
     {
         dof = 0;
         float disH = 1000000;
@@ -106,29 +122,27 @@ void Rays::Render(Grid &grid, Player &player) {
             }
         }
 
-
         float disT;
-
 
         if (disV < disH) {
             rx = vx;
             ry = vy;
             disT = disV;
-            glColor3f(0.0f, 0.9f, 0.9f);
+            glColor3f(0.8f, 0.8f, 0.8f);
         }
         if (disV > disH) {
             rx = hx;
             ry = hy;
             disT = disH;
-            glColor3f(0.0f, 0.7f, 0.7f);
+            glColor3f(0.7f, 0.7f, 0.7f);
         }
 
-        
+        /*
         glLineWidth(3);
         glBegin(GL_LINES);
         glVertex2i(player.posX, player.posY);
         glVertex2i(rx, ry);
-        glEnd();
+        glEnd();*/
 
         float ca=player.angle-ra;
         if (ca < 0)
@@ -148,18 +162,12 @@ void Rays::Render(Grid &grid, Player &player) {
         {
             lineH = 640;
         }
-        glLineWidth(10);
+        glLineWidth(5);
         glBegin(GL_LINES);
-        glVertex2i(r*10+640,lineO);
-        glVertex2i(r*10+640,lineH+lineO);
+        glVertex2i(r*5,lineO);
+        glVertex2i(r*5,lineH+lineO);
         glEnd();
-
-
-
-
-
-
-        ra += RAD;
+        ra += RAD * 0.5f;
 
         if (ra < 0)
         {
@@ -170,9 +178,6 @@ void Rays::Render(Grid &grid, Player &player) {
         {
             ra -= 2 * PI;
         }
-
-
-
     }
 }
 

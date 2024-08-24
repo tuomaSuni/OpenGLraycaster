@@ -91,7 +91,7 @@ void App::Loop() {
 
         grid.Render();
         player.Render();
-        rays.Render(grid, player);
+        //rays.Render(grid, player);
 
         glfwSwapBuffers(window.get());
         glfwPollEvents();

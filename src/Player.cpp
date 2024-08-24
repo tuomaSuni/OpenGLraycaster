@@ -1,4 +1,5 @@
 #include "Player.h"
+#include <cmath> // For std::sqrt
 
 Player::Player()
     : posX(320), posY(320), angle(-90.0f * RAD) {
@@ -21,22 +22,36 @@ void Player::Move(int key, int action) {
 }
 
 void Player::Update(float deltaTime) {
+    float moveX = 0.0f;
+    float moveY = 0.0f;
+
     if (keys[GLFW_KEY_W]) {
-        posX += forwardX * MOVEMENT_SPEED * deltaTime;
-        posY += forwardY * MOVEMENT_SPEED * deltaTime;
+        moveX += forwardX;
+        moveY += forwardY;
     }
     if (keys[GLFW_KEY_S]) {
-        posX -= forwardX * MOVEMENT_SPEED * deltaTime;
-        posY -= forwardY * MOVEMENT_SPEED * deltaTime;
+        moveX -= forwardX;
+        moveY -= forwardY;
     }
     if (keys[GLFW_KEY_A]) {
-        posX -= rightX * MOVEMENT_SPEED * deltaTime;
-        posY -= rightY * MOVEMENT_SPEED * deltaTime;
+        moveX -= rightX;
+        moveY -= rightY;
     }
     if (keys[GLFW_KEY_D]) {
-        posX += rightX * MOVEMENT_SPEED * deltaTime;
-        posY += rightY * MOVEMENT_SPEED * deltaTime;
+        moveX += rightX;
+        moveY += rightY;
     }
+
+    // Normalize the movement vector
+    float magnitude = std::sqrt(moveX * moveX + moveY * moveY);
+    if (magnitude > 0.0f) {
+        moveX /= magnitude;
+        moveY /= magnitude;
+    }
+
+    // Update position based on normalized direction vector
+    posX += moveX * MOVEMENT_SPEED * deltaTime;
+    posY += moveY * MOVEMENT_SPEED * deltaTime;
 }
 
 void Player::MouseMovement(double xpos, double ypos, float deltaTime) {
@@ -44,7 +59,7 @@ void Player::MouseMovement(double xpos, double ypos, float deltaTime) {
     static double lastY = ypos;
 
     double xOffset = xpos - lastX;
-    double yOffset = lastY - ypos; // Reversed since y-coordinates go from top to bottom
+    double yOffset = lastY - ypos;
 
     lastX = xpos;
     lastY = ypos;
@@ -55,9 +70,8 @@ void Player::MouseMovement(double xpos, double ypos, float deltaTime) {
 }
 
 void Player::Render() {
-    glColor3f(0.0f, 1.0f, 1.0f); // Set color to cyan
+    glColor3f(1.0f, 0.0f, 0.0f);
     glPointSize(8);
-
     glBegin(GL_POINTS);
     glVertex2i(posX, posY);
     glEnd();
