@@ -1,3 +1,0 @@
-"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\OpenGLraycaster.dir/objects.a
-C:\msys64\ucrt64\bin\ar.exe qc CMakeFiles\OpenGLraycaster.dir/objects.a @CMakeFiles\OpenGLraycaster.dir\objects1.rsp
-C:\msys64\ucrt64\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\OpenGLraycaster.dir/objects.a -Wl,--no-whole-archive -o OpenGLraycaster.exe -Wl,--out-implib,libOpenGLraycaster.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\OpenGLraycaster.dir\linkLibs.rsp
