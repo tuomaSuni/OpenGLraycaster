@@ -11,7 +11,7 @@ CMakeFiles/OpenGLraycaster.dir/src/Player.cpp.obj: \
  C:/msys64/ucrt64/include/sdks/_mingw_ddk.h \
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/13.2.0/include/stdint.h \
  C:/msys64/ucrt64/include/stdint.h C:/msys64/ucrt64/include/GL/gl.h \
- C:\Users\tuomas\OpenGLraycaster\src\GeometryMath.h \
+ C:/Users/tuomas/OpenGLraycaster/include/MATH/Utils.h \
  C:/msys64/ucrt64/include/c++/13.2.0/math.h \
  C:/msys64/ucrt64/include/c++/13.2.0/cmath \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/requires_hosted.h \

@@ -1,9 +1,6 @@
-// App.cpp
-
 #include "App.h"
 
-App::App()
-    : window(nullptr, glfwDestroyWindow) {}
+App::App() : window(nullptr, glfwDestroyWindow) {}
 
 void App::Execute() {
     Initialize();
@@ -64,7 +61,7 @@ void App::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int
 }
 
 void App::KeyCallbackImpl(int key, int action) {
-    player.Move(key, action);
+    player.DetectKeyInputs(key, action);
 }
 
 void App::MouseCallback(GLFWwindow* window, double xpos, double ypos) {
@@ -75,27 +72,32 @@ void App::MouseCallback(GLFWwindow* window, double xpos, double ypos) {
 }
 
 void App::MouseCallbackImpl(double xpos, double ypos) {
-    player.MouseMovement(xpos, ypos, deltaTime);
+    player.DetectMouseDelta(xpos, ypos, deltaTime);
 }
 
 void App::Loop() {
     while (!glfwWindowShouldClose(window.get())) {
-        float currentFrameTime = static_cast<float>(glfwGetTime());
-        deltaTime = currentFrameTime - lastFrameTime;
-        lastFrameTime = currentFrameTime;
-
-        glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        player.Update(deltaTime, grid); // Update the player's position
-
-        grid.Render();
-        player.Render();
-        rays.Render(grid, player);
-
+        ProcessFrame();
+        Render();
         glfwSwapBuffers(window.get());
         glfwPollEvents();
     }
+}
+
+void App::ProcessFrame() {
+    float currentFrameTime = static_cast<float>(glfwGetTime());
+    deltaTime = currentFrameTime - lastFrameTime;
+    lastFrameTime = currentFrameTime;
+
+    glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void App::Render() {
+    player.Update(deltaTime, grid); // Update the player's position
+    grid.Render();
+    player.Render();
+    rays.Render(grid, player);
 }
 
 void App::Terminate() {

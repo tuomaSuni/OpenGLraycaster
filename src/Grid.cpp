@@ -1,24 +1,22 @@
 #include "Grid.h"
 #include <GLFW/glfw3.h>
 
-Grid::Grid() {
-    // Constructor can be empty or include initialization code if necessary
-}
+Grid::Grid() {}
 
 void Grid::Render() {
     
     for (int y = 0; y < GRID_HEIGHT; ++y) {
         for (int x = 0; x < GRID_WIDTH; ++x) {
             
-            float x0 = x  * blockDimension + 1;
-            float y0 = y  * blockDimension + 1;
-            float x1 = x0 + blockDimension - 2;
-            float y1 = y0 + blockDimension - 2;
+            float x0 = x  * BLOCK_DIMENSION + 1;
+            float y0 = y  * BLOCK_DIMENSION + 1;
+            float x1 = x0 + BLOCK_DIMENSION - 2;
+            float y1 = y0 + BLOCK_DIMENSION - 2;
 
             if (grid[y * GRID_WIDTH + x] == 1) {
-                glColor3f(1.0f, 1.0f, 1.0f); // White block
+                glColor3f(1.0f, 1.0f, 1.0f);
             } else {
-                glColor3f(0.0f, 0.0f, 0.0f); // Black block
+                glColor3f(0.0f, 0.0f, 0.0f);
             }
             
             glBegin(GL_QUADS);

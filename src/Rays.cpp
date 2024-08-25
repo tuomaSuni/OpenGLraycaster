@@ -1,189 +1,185 @@
 #include "Rays.h"
 
-Rays::Rays()
-{
+Rays::Rays() {
 }
 
-void Rays::Render(Grid &grid, Player &player) {
-
-    glColor3f(0.5f, 0.77f, 0.9f);
-    glBegin(GL_QUADS);
-    glVertex2f(0, 0); // Bottom-left
-    glVertex2f(640, 0); // Bottom-right
-    glVertex2f(640, 320); // Top-right
-    glVertex2f(0,  320); // Top-left
-    glEnd();
-    
-    glColor3f(0.2f, 0.6f, 0.4f);
-    glBegin(GL_QUADS);
-    glVertex2f(0, 320); // Bottom-left
-    glVertex2f(640, 320); // Bottom-right
-    glVertex2f(640,  640); // Top-right
-    glVertex2f(0,  640); // Top-left
-    glEnd();
-
-    int r, mx, my, mp, dof;
-    float rx, ry, ra, xo, yo;
-
-    ra = player.angle - RAD * 28;
-    
-    if (ra < 0)
+void Rays::Render(Grid& grid, Player& player) {
+    float ra = player.angle - RAD * 28;
+    ra = fmod(ra + 2 * PI, 2 * PI); // Normalize angle to [0, 2*PI]
+    float someboolean = false;
+    if (someboolean == true)
     {
-        ra += 2 * PI;
+        drawSkyAndGround();
+
+        for (int r = 0; r < 128; ++r) {
+            drawRayColumn(r, ra, grid, player, true);
+            ra += RAD * 0.5f;
+            ra = fmod(ra + 2 * PI, 2 * PI); // Normalize angle to [0, 2*PI]
+        }
+    }
+    else
+    {
+        for (int r = 0; r < 128; ++r) {
+            drawRayColumn(r, ra, grid, player, false);
+            ra += RAD * 0.5f;
+            ra = fmod(ra + 2 * PI, 2 * PI); // Normalize angle to [0, 2*PI]
+        }
+    }
+}
+
+void Rays::drawSkyAndGround() {
+    // Draw the sky
+    glColor3f(0.5f, 0.77f, 0.9f); // Sky color
+    glBegin(GL_QUADS);
+    glVertex2f(0, 0);
+    glVertex2f(640, 0);
+    glVertex2f(640, 320);
+    glVertex2f(0, 320);
+    glEnd();
+
+    // Draw the ground
+    glColor3f(0.2f, 0.6f, 0.4f); // Ground color
+    glBegin(GL_QUADS);
+    glVertex2f(0, 320);
+    glVertex2f(640, 320);
+    glVertex2f(640, 640);
+    glVertex2f(0, 640);
+    glEnd();
+}
+
+void Rays::drawRayColumn(int columnIndex, float angle, const Grid& grid, const Player& player, bool rays) {
+    float hx, hy, vx, vy;
+
+    float disH = castHorizontalRay(angle, grid, player, hx, hy);
+    float disV = castVerticalRay(angle, grid, player, vx, vy);
+
+    // Determine the closest intersection
+    float disT;
+    if (disV < disH) {
+        hx = vx;
+        hy = vy;
+        disT = disV;
+        glColor3f(0.8f, 0.8f, 0.8f); // Light color
+    } else {
+        hx = hx;
+        hy = hy;
+        disT = disH;
+        glColor3f(0.7f, 0.7f, 0.7f); // Darker color
     }
 
-    if (ra > 2 * PI)
+    if (rays == false)
     {
-        ra -= 2 * PI;
-    }
-
-    for(r = 0; r < 128; r++)
-    {
-        dof = 0;
-        float disH = 1000000;
-
-        float hx = player.posX;
-        float hy = player.posY;
-
-        float aTan = -1 / tan(ra);
-
-        if(ra > PI) { 
-            ry = (((int)player.posY >> 6) << 6) - 0.0001; 
-            rx = (player.posY - ry) * aTan + player.posX; 
-            yo = -64; 
-            xo = -yo * aTan;
-        }
-        if(ra < PI) { 
-            ry = (((int)player.posY >> 6) << 6) + 64;     
-            rx = (player.posY - ry) * aTan + player.posX; 
-            yo = 64; 
-            xo = -yo * aTan;
-        }
-        if(ra == 0 || ra == PI) {
-            rx = player.posX; 
-            ry = player.posY; 
-            dof = 8;
-        }
-        while(dof < 8)
-        {
-            mx = (int)(rx) >> 6;
-            my = (int)(ry) >> 6;
-            mp = my * grid.GRID_WIDTH + mx;
-            if(mp > 0 && mp < grid.GRID_WIDTH * grid.GRID_HEIGHT && grid.grid[mp]==0) {
-                hx = rx;
-                hy = ry;
-                disH = dist(player.posX,player.posY,hx,hy);
-                dof = 8;
-            } else {
-                rx += xo; 
-                ry += yo; 
-                dof += 1;
-            }
-        }
-
-        dof = 0;
-        float disV = 1000000;
-        float vx = player.posX;
-        float vy = player.posY;
-
-        float nTan = -tan(ra);
-
-        if(ra > P2 && ra < P3) { 
-            rx = (((int)player.posX >> 6) << 6) - 0.0001; 
-            ry = (player.posX - rx) * nTan + player.posY; 
-            xo = -64; 
-            yo = -xo * nTan;
-        }
-        if(ra < P2 || ra > P3) { 
-            rx = (((int)player.posX >> 6) << 6) + 64;     
-            ry = (player.posX - rx) * nTan + player.posY; 
-            xo = 64; 
-            yo = -xo * nTan;
-        }
-        if(ra == 0 || ra == PI) {
-            rx = player.posX; 
-            ry = player.posY; 
-            dof = 8;
-        }
-        while(dof < 8)
-        {
-            mx = (int)(rx) >> 6;
-            my = (int)(ry) >> 6;
-            mp = my * grid.GRID_WIDTH + mx;
-            if(mp > 0 && mp < grid.GRID_WIDTH * grid.GRID_HEIGHT && grid.grid[mp]==0) {
-                vx = rx;
-                vy = ry;
-                disV = dist(player.posX,player.posY,vx,vy);
-                dof = 8;
-            } else {
-                rx += xo; 
-                ry += yo; 
-                dof += 1;
-            }
-        }
-
-        float disT;
-
-        if (disV < disH) {
-            rx = vx;
-            ry = vy;
-            disT = disV;
-            glColor3f(0.8f, 0.8f, 0.8f);
-        }
-        if (disV > disH) {
-            rx = hx;
-            ry = hy;
-            disT = disH;
-            glColor3f(0.7f, 0.7f, 0.7f);
-        }
-       /* glLineWidth(3);
+        glLineWidth(3);
         glBegin(GL_LINES);
-        glVertex2i(player.posX, player.posY);
-        glVertex2i(rx, ry);
-        glEnd();*/
+        glVertex2f(player.posX, player.posY);
+        glVertex2f(hx, hy);
+        glEnd();
+    }
+    else
+    {
+        // Correct the distance for the field of view
+        float ca = player.angle - angle;
+        disT *= cos(ca);
 
-        float ca=player.angle-ra;
-        if (ca < 0)
-        {
-            ca += 2 * PI;
-        }
-        if (ca > 2 * PI)
-        {
-            ca -= 2 * PI;
-        }
-        disT = disT * cos(ca);
-        
-
-        float lineH = (64*640) / disT;
-        
-        if (lineH > 640)
-        {
-            lineH = 640;
-        }
+        // Calculate line height
+        float lineH = (64 * 640) / disT;
+        lineH = std::min(lineH, 640.0f);
 
         float lineO = 320 - lineH / 2;
-        
+
+        // Draw the line
         glLineWidth(5);
         glBegin(GL_LINES);
-        glVertex2i(r*5+3,lineO);
-        glVertex2i(r*5+3,lineH+lineO);
+        glVertex2i(columnIndex * 5 + 3, lineO);
+        glVertex2i(columnIndex * 5 + 3, lineH + lineO);
         glEnd();
-
-        ra += RAD * 0.5f;
-
-        if (ra < 0)
-        {
-            ra += 2 * PI;
-        }
-
-        if (ra > 2 * PI)
-        {
-            ra -= 2 * PI;
-        }
     }
 }
 
-float Rays::dist(float ax, float ay, float bx, float by)
-{
-    return sqrt((bx-ax) * (bx-ax) + (by-ay) *(by-ay));
+float Rays::castHorizontalRay(float ra, const Grid& grid, const Player& player, float& hx, float& hy) {
+    float disH = 1e6f;
+    float aTan = -1 / tan(ra);
+    float rx, ry, xo, yo;
+    int dof = 0;
+
+    if (ra > PI) {
+        ry = (static_cast<int>(player.posY) & ~63) - 0.0001f;
+        rx = (player.posY - ry) * aTan + player.posX;
+        yo = -64;
+        xo = -yo * aTan;
+    } else if (ra < PI) {
+        ry = (static_cast<int>(player.posY) & ~63) + 64;
+        rx = (player.posY - ry) * aTan + player.posX;
+        yo = 64;
+        xo = -yo * aTan;
+    } else {
+        rx = player.posX;
+        ry = player.posY;
+        disH = 1e6f;
+    }
+
+    while (dof < 8) {
+        int mx = static_cast<int>(rx) >> 6;
+        int my = static_cast<int>(ry) >> 6;
+        int mp = my * grid.GRID_WIDTH + mx;
+        if (mp >= 0 && mp < grid.GRID_WIDTH * grid.GRID_HEIGHT && grid.grid[mp] == 0) {
+            hx = rx;
+            hy = ry;
+            disH = dist(player.posX, player.posY, hx, hy);
+            break;
+        } else {
+            rx += xo;
+            ry += yo;
+            ++dof;
+        }
+    }
+
+    return disH;
+}
+
+float Rays::castVerticalRay(float ra, const Grid& grid, const Player& player, float& vx, float& vy) {
+    float disV = 1e6f;
+    float nTan = -tan(ra);
+    float rx, ry, xo, yo;
+    int dof = 0;
+
+    if (ra > P2 && ra < P3) {
+        rx = (static_cast<int>(player.posX) & ~63) - 0.0001f;
+        ry = (player.posX - rx) * nTan + player.posY;
+        xo = -64;
+        yo = -xo * nTan;
+    } else if (ra < P2 || ra > P3) {
+        rx = (static_cast<int>(player.posX) & ~63) + 64;
+        ry = (player.posX - rx) * nTan + player.posY;
+        xo = 64;
+        yo = -xo * nTan;
+    } else {
+        rx = player.posX;
+        ry = player.posY;
+        disV = 1e6f;
+    }
+
+    while (dof < 8) {
+        int mx = static_cast<int>(rx) >> 6;
+        int my = static_cast<int>(ry) >> 6;
+        int mp = my * grid.GRID_WIDTH + mx;
+        if (mp >= 0 && mp < grid.GRID_WIDTH * grid.GRID_HEIGHT && grid.grid[mp] == 0) {
+            vx = rx;
+            vy = ry;
+            disV = dist(player.posX, player.posY, vx, vy);
+            break;
+        } else {
+            rx += xo;
+            ry += yo;
+            ++dof;
+        }
+    }
+
+    return disV;
+}
+
+float Rays::dist(float ax, float ay, float bx, float by) const {
+    float dx = bx - ax;
+    float dy = by - ay;
+    return std::sqrt(dx * dx + dy * dy);
 }

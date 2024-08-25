@@ -1,14 +1,15 @@
 #pragma once
 
 #include <GLFW/glfw3.h>
-#include "GeometryMath.h"
+#include <MATH/Utils.h>
 #include "Grid.h"
+
 class Player {
 public:
     Player();
 
-    void Move(int key, int action);
-    void MouseMovement(double xpos, double ypos, float deltaTime);
+    void DetectKeyInputs(int key, int action);
+    void DetectMouseDelta(double xpos, double ypos, float deltaTime);
     void Update(float deltaTime, Grid& grid); 
     void Render();
 
@@ -17,7 +18,6 @@ public:
     float posY;
     float angle;
 private:
-    void UpdateDirectionVectors();
 
     bool keys[GLFW_KEY_LAST] = { false }; // Array to track key states
     static constexpr float MOVEMENT_SPEED = 64; // Movement speed

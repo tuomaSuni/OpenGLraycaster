@@ -24,6 +24,7 @@ public:
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     };
     
-    int blockDimension = 64;
+    static const int BLOCK_DIMENSION = 64;
+
 private:
 };

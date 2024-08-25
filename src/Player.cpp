@@ -8,7 +8,7 @@ Player::Player() : posX(128), posY(128), angle(1.57079633) {
     rightY = cos(angle);
 }
 
-void Player::Move(int key, int action) {
+void Player::DetectKeyInputs(int key, int action) {
     if (action == GLFW_PRESS) {
         keys[key] = true;
     } else if (action == GLFW_RELEASE) {
@@ -48,10 +48,10 @@ void Player::Update(float deltaTime, Grid& grid) {
     float newPosY = posY + moveY * MOVEMENT_SPEED * deltaTime;
 
 
-    int ipxOld  = posX    / grid.blockDimension;
-    int ipyOld  = posY    / grid.blockDimension;
-    int ipxNewX = newPosX / grid.blockDimension;
-    int ipyNewY = newPosY / grid.blockDimension;
+    int ipxOld  = posX    / grid.BLOCK_DIMENSION;
+    int ipyOld  = posY    / grid.BLOCK_DIMENSION;
+    int ipxNewX = newPosX / grid.BLOCK_DIMENSION;
+    int ipyNewY = newPosY / grid.BLOCK_DIMENSION;
 
     if (grid.grid[ipyOld * grid.GRID_WIDTH + ipxNewX] == 1) {
         posX = newPosX;
@@ -62,7 +62,7 @@ void Player::Update(float deltaTime, Grid& grid) {
     }
 }
 
-void Player::MouseMovement(double xpos, double ypos, float deltaTime) {
+void Player::DetectMouseDelta(double xpos, double ypos, float deltaTime) {
     static double lastX = xpos;
     static double lastY = ypos;
 
