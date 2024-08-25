@@ -87,7 +87,7 @@ void App::Loop() {
         glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        player.Update(deltaTime); // Update the player's position
+        player.Update(deltaTime, grid); // Update the player's position
 
         grid.Render();
         player.Render();

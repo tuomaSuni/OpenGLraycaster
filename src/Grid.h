@@ -24,6 +24,6 @@ public:
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     };
     
+    int blockDimension = 64;
 private:
-
 };

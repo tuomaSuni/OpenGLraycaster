@@ -2,14 +2,14 @@
 
 #include <GLFW/glfw3.h>
 #include "GeometryMath.h"
-
+#include "Grid.h"
 class Player {
 public:
     Player();
 
     void Move(int key, int action);
     void MouseMovement(double xpos, double ypos, float deltaTime);
-    void Update(float deltaTime); 
+    void Update(float deltaTime, Grid& grid); 
     void Render();
 
     // Public members (if needed) can be declared here
@@ -30,4 +30,6 @@ private:
 
     float moveX;
     float moveY;
+
+    Grid grid;
 };

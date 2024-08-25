@@ -1,12 +1,7 @@
 #include "Player.h"
 #include <cmath> // For std::sqrt
 
-Player::Player()
-    : posX(320), posY(320), angle(-90.0f * RAD) {
-    UpdateDirectionVectors();
-}
-
-void Player::UpdateDirectionVectors() {
+Player::Player() : posX(128), posY(128), angle(1.57079633) {
     forwardX = cos(angle);
     forwardY = sin(angle);
     rightX = -sin(angle);
@@ -21,7 +16,8 @@ void Player::Move(int key, int action) {
     }
 }
 
-void Player::Update(float deltaTime) {
+void Player::Update(float deltaTime, Grid& grid) {
+
     float moveX = 0.0f;
     float moveY = 0.0f;
 
@@ -42,16 +38,28 @@ void Player::Update(float deltaTime) {
         moveY += rightY;
     }
 
-    // Normalize the movement vector
     float magnitude = std::sqrt(moveX * moveX + moveY * moveY);
     if (magnitude > 0.0f) {
         moveX /= magnitude;
         moveY /= magnitude;
     }
 
-    // Update position based on normalized direction vector
-    posX += moveX * MOVEMENT_SPEED * deltaTime;
-    posY += moveY * MOVEMENT_SPEED * deltaTime;
+    float newPosX = posX + moveX * MOVEMENT_SPEED * deltaTime;
+    float newPosY = posY + moveY * MOVEMENT_SPEED * deltaTime;
+
+
+    int ipxOld  = posX    / grid.blockDimension;
+    int ipyOld  = posY    / grid.blockDimension;
+    int ipxNewX = newPosX / grid.blockDimension;
+    int ipyNewY = newPosY / grid.blockDimension;
+
+    if (grid.grid[ipyOld * grid.GRID_WIDTH + ipxNewX] == 1) {
+        posX = newPosX;
+    }
+
+    if (grid.grid[ipyNewY * grid.GRID_WIDTH + ipxOld] == 1) {
+        posY = newPosY;
+    }
 }
 
 void Player::MouseMovement(double xpos, double ypos, float deltaTime) {
@@ -65,8 +73,20 @@ void Player::MouseMovement(double xpos, double ypos, float deltaTime) {
     lastY = ypos;
 
     angle += xOffset * ANGLE_SENSITIVITY * deltaTime;
+    
+    if (angle > 2 * PI)
+    {
+        angle -= 2 * PI;
+    }
+    if (angle < 0)
+    {
+        angle += 2 * PI;
+    }
 
-    UpdateDirectionVectors();
+    forwardX = cos(angle);
+    forwardY = sin(angle);
+    rightX = -sin(angle);
+    rightY = cos(angle);
 }
 
 void Player::Render() {
