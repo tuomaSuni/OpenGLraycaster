@@ -1,10 +1,12 @@
 #include "App.h"
 
-App::App() 
-    : window(nullptr, glfwDestroyWindow), // Initialize the unique_ptr
-      engine(WINDOW_WIDTH, WINDOW_HEIGHT) // Initialize the Engine object
-{
-    // Constructor body (if needed)
+App::App() : window(nullptr, glfwDestroyWindow),
+             engine(WINDOW_WIDTH, WINDOW_HEIGHT, 8, RENDER_MODE) {
+    if (RENDER_MODE == false)
+    {
+        WINDOW_WIDTH = 640;
+        WINDOW_HEIGHT = 640;
+    }
 }
 
 void App::Execute() {
@@ -33,6 +35,7 @@ void App::CreateWindow() {
     }
 
     window.reset(glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "OpenGL Raycaster", nullptr, nullptr));
+    
     if (!window) {
         glfwTerminate();
         throw std::runtime_error("Window creation failed");
@@ -77,7 +80,7 @@ void App::MouseCallback(GLFWwindow* window, double xpos, double ypos) {
 }
 
 void App::MouseCallbackImpl(double xpos, double ypos) {
-    player.DetectMouseDelta(xpos, ypos, deltaTime);
+    player.DetectMouseDelta(xpos, ypos);
 }
 
 void App::Loop() {

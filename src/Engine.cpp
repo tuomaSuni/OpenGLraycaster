@@ -1,37 +1,40 @@
 #include "Engine.h"
+#include "Textures.h"
 
-Engine::Engine(int window_width, int window_height) {
+Engine::Engine(int window_width, int window_height, int LOD, bool render_mode) {
     render_width = window_width;
     render_height = window_height;
+    
+    resolution = 10 * (1 << (LOD - 1));
+    staticres = resolution;
+    inc = 64 / staticres;
+
+    flag = render_mode;
 }
 
 void Engine::Render(Grid& grid, Player& player) {
     float ra = player.angle - RAD * 32;
-    ra = fmod(ra + 2 * PI, 2 * PI); // Normalize angle to [0, 2*PI]
+    ra = fmod(ra + 2 * PI, 2 * PI);
     
-    if (Mode_3D == true)
-    {
+    if (flag == true) {
         drawSkyAndGround();
 
         for (int r = 0; r < resolution; ++r) {
             drawRayColumn(r, ra, grid, player, true);
             ra += RAD * inc;
-            ra = fmod(ra + 2 * PI, 2 * PI); // Normalize angle to [0, 2*PI]
+            ra = fmod(ra + 2 * PI, 2 * PI);
         }
-    }
-    else
-    {
+    } else {
         for (int r = 0; r < resolution; ++r) {
             drawRayColumn(r, ra, grid, player, false);
             ra += RAD * inc;
-            ra = fmod(ra + 2 * PI, 2 * PI); // Normalize angle to [0, 2*PI]
+            ra = fmod(ra + 2 * PI, 2 * PI);
         }
     }
 }
 
 void Engine::drawSkyAndGround() {
-    // Draw the sky
-    glColor3f(0.5f, 0.77f, 0.9f); // Sky color
+    glColor3f(0.5f, 0.77f, 0.9f);
     glBegin(GL_QUADS);
     glVertex2f(0, 0);
     glVertex2f(render_width, 0);
@@ -39,8 +42,7 @@ void Engine::drawSkyAndGround() {
     glVertex2f(0, render_height/2);
     glEnd();
 
-    // Draw the ground
-    glColor3f(0.2f, 0.6f, 0.4f); // Ground color
+    glColor3f(0.2f, 0.6f, 0.4f);
     glBegin(GL_QUADS);
     glVertex2f(0, render_height/2);
     glVertex2f(render_width, render_height/2);
@@ -55,44 +57,40 @@ void Engine::drawRayColumn(int columnIndex, float angle, const Grid& grid, const
     float disH = castHorizontalRay(angle, grid, player, hx, hy);
     float disV = castVerticalRay(angle, grid, player, vx, vy);
 
-    // Determine the closest intersection
     float disT;
     if (disV < disH) {
         hx = vx;
         hy = vy;
         disT = disV;
-        glColor3f(0.8f, 0.8f, 0.8f); // Light color
+        glColor3f(0.8f, 0.8f, 0.8f);
     } else {
         hx = hx;
         hy = hy;
         disT = disH;
-        glColor3f(0.7f, 0.7f, 0.7f); // Darker color
+        glColor3f(0.7f, 0.7f, 0.7f);
     }
 
-    if (draw3Drays == false)
-    {
+    if (draw3Drays != true) {
         glLineWidth(3);
         glBegin(GL_LINES);
         glVertex2f(player.posX, player.posY);
         glVertex2f(hx, hy);
         glEnd();
-    }
-    else
-    {
+    } else {
         float ca = player.angle - angle;
         disT *= cos(ca);
 
         float lineH = (grid.BLOCK_DIMENSION * render_height) / disT;
-        lineH = std::min(lineH, 640.0f);
+        lineH = std::min<float>(lineH, render_height);
 
         float lineO = render_height / 2 - lineH / 2;
 
-        float point = render_height / staticres;
+        float point = render_width / staticres;
         
         glLineWidth(point);
         glBegin(GL_LINES);
-        glVertex2i(columnIndex * point + 2, lineO);
-        glVertex2i(columnIndex * point + 2, lineH + lineO);
+        glVertex2i(columnIndex * point + point / 2, lineO);
+        glVertex2i(columnIndex * point + point / 2, lineH + lineO);
         glEnd();
     }
 }

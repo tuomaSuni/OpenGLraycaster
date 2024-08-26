@@ -14,6 +14,15 @@ public:
     void Execute();
     void Terminate();
 private:
+
+    int WINDOW_WIDTH  = 1280;
+    int WINDOW_HEIGHT = 720;
+
+    bool RENDER_MODE  = true;
+
+    float lastFrameTime;
+    float deltaTime;
+
     void Initialize();
     void InitializeGLFW();
     void CreateWindow();
@@ -30,13 +39,7 @@ private:
     std::unique_ptr<GLFWwindow, decltype(&glfwDestroyWindow)> window;
     const GLFWvidmode* videoMode = nullptr;
 
-    static constexpr int WINDOW_WIDTH  = 640;
-    static constexpr int WINDOW_HEIGHT = 640;
-
-    float lastFrameTime = 0.0f;
-    float deltaTime;
-
+    Engine engine;
     Player player;
     Grid grid;
-    Engine engine;
 };

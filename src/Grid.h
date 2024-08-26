@@ -8,8 +8,8 @@ public:
     Grid();
     void Render();
 
-    static const int GRID_WIDTH = 10;
-    static const int GRID_HEIGHT = 10;
+    static constexpr int GRID_WIDTH = 10;
+    static constexpr int GRID_HEIGHT = 10;
 
     int grid[GRID_HEIGHT * GRID_WIDTH] = {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -24,7 +24,7 @@ public:
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     };
     
-    static const int BLOCK_DIMENSION = 64;
+    static constexpr int BLOCK_DIMENSION = 64;
 
 private:
 };

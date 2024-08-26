@@ -1,5 +1,4 @@
 #include "Player.h"
-#include <cmath> // For std::sqrt
 
 Player::Player() : posX(128), posY(128), angle(1.57079633) {
     forwardX = cos(angle);
@@ -62,7 +61,7 @@ void Player::Update(float deltaTime, Grid& grid) {
     }
 }
 
-void Player::DetectMouseDelta(double xpos, double ypos, float deltaTime) {
+void Player::DetectMouseDelta(double xpos, double ypos) {
     static double lastX = xpos;
     static double lastY = ypos;
 
@@ -72,7 +71,7 @@ void Player::DetectMouseDelta(double xpos, double ypos, float deltaTime) {
     lastX = xpos;
     lastY = ypos;
 
-    angle += xOffset * ANGLE_SENSITIVITY * deltaTime;
+    angle += xOffset * ANGLE_SENSITIVITY / 100;
     
     if (angle > 2 * PI)
     {

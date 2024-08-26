@@ -1,5 +1,4 @@
 #include "Grid.h"
-#include <GLFW/glfw3.h>
 
 Grid::Grid() {}
 
