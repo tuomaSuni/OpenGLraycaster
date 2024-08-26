@@ -1,53 +1,55 @@
-#include "Rays.h"
+#include "Engine.h"
 
-Rays::Rays() {
+Engine::Engine(int window_width, int window_height) {
+    render_width = window_width;
+    render_height = window_height;
 }
 
-void Rays::Render(Grid& grid, Player& player) {
-    float ra = player.angle - RAD * 28;
+void Engine::Render(Grid& grid, Player& player) {
+    float ra = player.angle - RAD * 32;
     ra = fmod(ra + 2 * PI, 2 * PI); // Normalize angle to [0, 2*PI]
-    float someboolean = false;
-    if (someboolean == true)
+    
+    if (Mode_3D == true)
     {
         drawSkyAndGround();
 
-        for (int r = 0; r < 128; ++r) {
+        for (int r = 0; r < resolution; ++r) {
             drawRayColumn(r, ra, grid, player, true);
-            ra += RAD * 0.5f;
+            ra += RAD * inc;
             ra = fmod(ra + 2 * PI, 2 * PI); // Normalize angle to [0, 2*PI]
         }
     }
     else
     {
-        for (int r = 0; r < 128; ++r) {
+        for (int r = 0; r < resolution; ++r) {
             drawRayColumn(r, ra, grid, player, false);
-            ra += RAD * 0.5f;
+            ra += RAD * inc;
             ra = fmod(ra + 2 * PI, 2 * PI); // Normalize angle to [0, 2*PI]
         }
     }
 }
 
-void Rays::drawSkyAndGround() {
+void Engine::drawSkyAndGround() {
     // Draw the sky
     glColor3f(0.5f, 0.77f, 0.9f); // Sky color
     glBegin(GL_QUADS);
     glVertex2f(0, 0);
-    glVertex2f(640, 0);
-    glVertex2f(640, 320);
-    glVertex2f(0, 320);
+    glVertex2f(render_width, 0);
+    glVertex2f(render_width, render_height/2);
+    glVertex2f(0, render_height/2);
     glEnd();
 
     // Draw the ground
     glColor3f(0.2f, 0.6f, 0.4f); // Ground color
     glBegin(GL_QUADS);
-    glVertex2f(0, 320);
-    glVertex2f(640, 320);
-    glVertex2f(640, 640);
-    glVertex2f(0, 640);
+    glVertex2f(0, render_height/2);
+    glVertex2f(render_width, render_height/2);
+    glVertex2f(render_width, render_width);
+    glVertex2f(0, render_width);
     glEnd();
 }
 
-void Rays::drawRayColumn(int columnIndex, float angle, const Grid& grid, const Player& player, bool rays) {
+void Engine::drawRayColumn(int columnIndex, float angle, const Grid& grid, const Player& player, bool draw3Drays) {
     float hx, hy, vx, vy;
 
     float disH = castHorizontalRay(angle, grid, player, hx, hy);
@@ -67,7 +69,7 @@ void Rays::drawRayColumn(int columnIndex, float angle, const Grid& grid, const P
         glColor3f(0.7f, 0.7f, 0.7f); // Darker color
     }
 
-    if (rays == false)
+    if (draw3Drays == false)
     {
         glLineWidth(3);
         glBegin(GL_LINES);
@@ -77,40 +79,39 @@ void Rays::drawRayColumn(int columnIndex, float angle, const Grid& grid, const P
     }
     else
     {
-        // Correct the distance for the field of view
         float ca = player.angle - angle;
         disT *= cos(ca);
 
-        // Calculate line height
-        float lineH = (64 * 640) / disT;
+        float lineH = (grid.BLOCK_DIMENSION * render_height) / disT;
         lineH = std::min(lineH, 640.0f);
 
-        float lineO = 320 - lineH / 2;
+        float lineO = render_height / 2 - lineH / 2;
 
-        // Draw the line
-        glLineWidth(5);
+        float point = render_height / staticres;
+        
+        glLineWidth(point);
         glBegin(GL_LINES);
-        glVertex2i(columnIndex * 5 + 3, lineO);
-        glVertex2i(columnIndex * 5 + 3, lineH + lineO);
+        glVertex2i(columnIndex * point + 2, lineO);
+        glVertex2i(columnIndex * point + 2, lineH + lineO);
         glEnd();
     }
 }
 
-float Rays::castHorizontalRay(float ra, const Grid& grid, const Player& player, float& hx, float& hy) {
+float Engine::castHorizontalRay(float ra, const Grid& grid, const Player& player, float& hx, float& hy) {
     float disH = 1e6f;
     float aTan = -1 / tan(ra);
     float rx, ry, xo, yo;
     int dof = 0;
 
     if (ra > PI) {
-        ry = (static_cast<int>(player.posY) & ~63) - 0.0001f;
+        ry = (static_cast<int>(player.posY) & ~(grid.BLOCK_DIMENSION-1)) - 0.0001f;
         rx = (player.posY - ry) * aTan + player.posX;
-        yo = -64;
+        yo = -grid.BLOCK_DIMENSION;
         xo = -yo * aTan;
     } else if (ra < PI) {
-        ry = (static_cast<int>(player.posY) & ~63) + 64;
+        ry = (static_cast<int>(player.posY) & ~(grid.BLOCK_DIMENSION-1)) + grid.BLOCK_DIMENSION;
         rx = (player.posY - ry) * aTan + player.posX;
-        yo = 64;
+        yo = grid.BLOCK_DIMENSION;
         xo = -yo * aTan;
     } else {
         rx = player.posX;
@@ -118,7 +119,7 @@ float Rays::castHorizontalRay(float ra, const Grid& grid, const Player& player, 
         disH = 1e6f;
     }
 
-    while (dof < 8) {
+    while (dof < std::sqrt(grid.BLOCK_DIMENSION)) {
         int mx = static_cast<int>(rx) >> 6;
         int my = static_cast<int>(ry) >> 6;
         int mp = my * grid.GRID_WIDTH + mx;
@@ -137,21 +138,21 @@ float Rays::castHorizontalRay(float ra, const Grid& grid, const Player& player, 
     return disH;
 }
 
-float Rays::castVerticalRay(float ra, const Grid& grid, const Player& player, float& vx, float& vy) {
+float Engine::castVerticalRay(float ra, const Grid& grid, const Player& player, float& vx, float& vy) {
     float disV = 1e6f;
     float nTan = -tan(ra);
     float rx, ry, xo, yo;
     int dof = 0;
 
     if (ra > P2 && ra < P3) {
-        rx = (static_cast<int>(player.posX) & ~63) - 0.0001f;
+        rx = (static_cast<int>(player.posX) & ~(grid.BLOCK_DIMENSION-1)) - 0.0001f;
         ry = (player.posX - rx) * nTan + player.posY;
-        xo = -64;
+        xo = -grid.BLOCK_DIMENSION;
         yo = -xo * nTan;
     } else if (ra < P2 || ra > P3) {
-        rx = (static_cast<int>(player.posX) & ~63) + 64;
+        rx = (static_cast<int>(player.posX) & ~(grid.BLOCK_DIMENSION-1)) + grid.BLOCK_DIMENSION;
         ry = (player.posX - rx) * nTan + player.posY;
-        xo = 64;
+        xo = grid.BLOCK_DIMENSION;
         yo = -xo * nTan;
     } else {
         rx = player.posX;
@@ -159,7 +160,7 @@ float Rays::castVerticalRay(float ra, const Grid& grid, const Player& player, fl
         disV = 1e6f;
     }
 
-    while (dof < 8) {
+    while (dof < std::sqrt(grid.BLOCK_DIMENSION)) {
         int mx = static_cast<int>(rx) >> 6;
         int my = static_cast<int>(ry) >> 6;
         int mp = my * grid.GRID_WIDTH + mx;
@@ -178,7 +179,7 @@ float Rays::castVerticalRay(float ra, const Grid& grid, const Player& player, fl
     return disV;
 }
 
-float Rays::dist(float ax, float ay, float bx, float by) const {
+float Engine::dist(float ax, float ay, float bx, float by) const {
     float dx = bx - ax;
     float dy = by - ay;
     return std::sqrt(dx * dx + dy * dy);

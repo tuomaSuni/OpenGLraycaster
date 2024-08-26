@@ -1,6 +1,11 @@
 #include "App.h"
 
-App::App() : window(nullptr, glfwDestroyWindow) {}
+App::App() 
+    : window(nullptr, glfwDestroyWindow), // Initialize the unique_ptr
+      engine(WINDOW_WIDTH, WINDOW_HEIGHT) // Initialize the Engine object
+{
+    // Constructor body (if needed)
+}
 
 void App::Execute() {
     Initialize();
@@ -27,7 +32,7 @@ void App::CreateWindow() {
         throw std::runtime_error("Failed to get video mode");
     }
 
-    window.reset(glfwCreateWindow(windowWidth, windowHeight, "OpenGL Raycaster", nullptr, nullptr));
+    window.reset(glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "OpenGL Raycaster", nullptr, nullptr));
     if (!window) {
         glfwTerminate();
         throw std::runtime_error("Window creation failed");
@@ -37,11 +42,11 @@ void App::CreateWindow() {
 void App::SetOpenGLSettings() {
     glfwSetWindowAttrib(window.get(), GLFW_RESIZABLE, GLFW_FALSE);
     glfwMakeContextCurrent(window.get());
-    glViewport(0, 0, windowWidth, windowHeight);
-    glOrtho(0, windowWidth, windowHeight, 0, -1, 1); // Orthographic projection
+    glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    glOrtho(0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, -1, 1); // Orthographic projection
 
-    int xpos = (videoMode->width - windowWidth) / 2;
-    int ypos = (videoMode->height - windowHeight) / 2;
+    int xpos = (videoMode->width - WINDOW_WIDTH) / 2;
+    int ypos = (videoMode->height - WINDOW_HEIGHT) / 2;
     glfwSetWindowPos(window.get(), xpos, ypos);
 
     glfwSetInputMode(window.get(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -97,7 +102,7 @@ void App::Render() {
     player.Update(deltaTime, grid); // Update the player's position
     grid.Render();
     player.Render();
-    rays.Render(grid, player);
+    engine.Render(grid, player);
 }
 
 void App::Terminate() {

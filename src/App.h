@@ -6,7 +6,7 @@
 
 #include "Player.h"
 #include "Grid.h"
-#include "Rays.h"
+#include "Engine.h"
 
 class App {
 public:
@@ -30,13 +30,13 @@ private:
     std::unique_ptr<GLFWwindow, decltype(&glfwDestroyWindow)> window;
     const GLFWvidmode* videoMode = nullptr;
 
-    int windowWidth = 640;
-    int windowHeight = 640;
+    static constexpr int WINDOW_WIDTH  = 640;
+    static constexpr int WINDOW_HEIGHT = 640;
 
     float lastFrameTime = 0.0f;
     float deltaTime;
 
     Player player;
     Grid grid;
-    Rays rays;
+    Engine engine;
 };
