@@ -2,14 +2,17 @@
 #include "Textures.h"
 
 Engine::Engine(int window_width, int window_height, int LOD, bool render_mode) {
-    render_width = window_width;
-    render_height = window_height;
-    
-    resolution = 10 * (1 << (LOD - 1));
-    staticres = resolution;
-    inc = 64 / staticres;
 
-    flag = render_mode;
+    LOD           = (LOD < 1) ? 1 : (LOD > 8) ? 8 : LOD;
+    resolution    = window_width / (1 << (8 - LOD));
+    
+    render_width  = window_width;
+    render_height = window_height;
+
+    staticres     = resolution;
+    inc           = 64 / staticres;
+
+    flag          = render_mode;
 }
 
 void Engine::Render(Grid& grid, Player& player) {
@@ -58,16 +61,19 @@ void Engine::drawRayColumn(int columnIndex, float angle, const Grid& grid, const
     float disV = castVerticalRay(angle, grid, player, vx, vy);
 
     float disT;
+    float shade;
     if (disV < disH) {
         hx = vx;
         hy = vy;
         disT = disV;
-        glColor3f(0.8f, 0.8f, 0.8f);
+        glColor3f(0.9f, 0.9f, 0.9f);
+        shade = 1.0;
     } else {
         hx = hx;
         hy = hy;
         disT = disH;
         glColor3f(0.7f, 0.7f, 0.7f);
+        shade = 0.5;
     }
 
     if (draw3Drays != true) {
@@ -81,17 +87,55 @@ void Engine::drawRayColumn(int columnIndex, float angle, const Grid& grid, const
         disT *= cos(ca);
 
         float lineH = (grid.BLOCK_DIMENSION * render_height) / disT;
-        lineH = std::min<float>(lineH, render_height);
+        float ty_step=32.0/(float)lineH;
+        float ty_off=0;
+        if (lineH>640)
+        {
+            ty_off=(lineH-640)/2.0;
+            lineH = 640;
+        }
 
         float lineO = render_height / 2 - lineH / 2;
 
         float point = render_width / staticres;
         
-        glLineWidth(point);
-        glBegin(GL_LINES);
-        glVertex2i(columnIndex * point + point / 2, lineO);
-        glVertex2i(columnIndex * point + point / 2, lineH + lineO);
-        glEnd();
+        bool drawTextures = false;
+        
+        if (drawTextures != true)
+        {
+            glLineWidth(point);
+            glBegin(GL_LINES);
+            glVertex2i(columnIndex * point + point / 2, lineO);
+            glVertex2i(columnIndex * point + point / 2, lineH + lineO);
+            glEnd();
+        }
+        else
+        {
+            int y;
+            float ty=ty_off*ty_step;
+
+            float tx;
+            if (shade==1) { tx=(int)(hy/2.0)%32; if (angle > P2) { tx=31-tx;}}
+            else          { tx=(int)(hx/2.0)%32; if (PI / 3 && P3) { tx=31-tx;}}
+            
+            for (y=0;y<lineH;y++)
+            {
+                float c = Brick[(int)(ty)*32 + (int)(tx)] * shade;
+                if (c == 0)
+                {
+                    glColor3f(0.9,0.9,0.9);
+                }
+                else
+                {
+                    glColor3f(0.7,0.7,0.7);
+                }
+                glPointSize(point);
+                glBegin(GL_POINTS);
+                glVertex2i(columnIndex * point + point / 2, y+lineO);
+                glEnd();
+                ty+=ty_step;
+            }
+        }
     }
 }
 
