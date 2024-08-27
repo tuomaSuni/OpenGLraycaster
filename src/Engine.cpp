@@ -37,7 +37,7 @@ void Engine::Render(Grid& grid, Player& player) {
 }
 
 void Engine::drawSkyAndGround() {
-    glColor3f(0.5f, 0.77f, 0.9f);
+    glColor3f(0.5f, 0.8f, 0.9f);
     glBegin(GL_QUADS);
     glVertex2f(0, 0);
     glVertex2f(render_width, 0);
@@ -45,7 +45,7 @@ void Engine::drawSkyAndGround() {
     glVertex2f(0, render_height/2);
     glEnd();
 
-    glColor3f(0.2f, 0.6f, 0.4f);
+    glColor3f(0.2f, 0.6f, 0.2f);
     glBegin(GL_QUADS);
     glVertex2f(0, render_height/2);
     glVertex2f(render_width, render_height/2);
@@ -61,19 +61,19 @@ void Engine::drawRayColumn(int columnIndex, float angle, const Grid& grid, const
     float disV = castVerticalRay(angle, grid, player, vx, vy);
 
     float disT;
-    float shade;
+    float shading;
     if (disV < disH) {
         hx = vx;
         hy = vy;
         disT = disV;
         glColor3f(0.9f, 0.9f, 0.9f);
-        shade = 1.0;
+        shading = 0.5;
     } else {
         hx = hx;
         hy = hy;
         disT = disH;
         glColor3f(0.7f, 0.7f, 0.7f);
-        shade = 0.5;
+        shading = 1.0;
     }
 
     if (draw3Drays != true) {
@@ -99,7 +99,7 @@ void Engine::drawRayColumn(int columnIndex, float angle, const Grid& grid, const
 
         float point = render_width / staticres;
         
-        bool drawTextures = false;
+        bool drawTextures = true;
         
         if (drawTextures != true)
         {
@@ -115,20 +115,14 @@ void Engine::drawRayColumn(int columnIndex, float angle, const Grid& grid, const
             float ty=ty_off*ty_step;
 
             float tx;
-            if (shade==1) { tx=(int)(hy/2.0)%32; if (angle > P2) { tx=31-tx;}}
-            else          { tx=(int)(hx/2.0)%32; if (PI / 3 && P3) { tx=31-tx;}}
+            if (shading==1) { tx=(int)(hx/2.0)%32; if (angle > P2) { tx=31-tx;}}
+            else            { tx=(int)(hy/2.0)%32; if (angle > PI / 3 && angle < P3) { tx=31-tx;}}
             
             for (y=0;y<lineH;y++)
             {
-                float c = Brick[(int)(ty)*32 + (int)(tx)] * shade;
-                if (c == 0)
-                {
-                    glColor3f(0.9,0.9,0.9);
-                }
-                else
-                {
-                    glColor3f(0.7,0.7,0.7);
-                }
+                int index = Brick[(int)(ty)*32 + (int)(tx)];
+                
+                glColor3f(colorvalues[index][0] * shading, colorvalues[index][1] * shading, colorvalues[index][2] * shading);
                 glPointSize(point);
                 glBegin(GL_POINTS);
                 glVertex2i(columnIndex * point + point / 2, y+lineO);

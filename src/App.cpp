@@ -1,7 +1,7 @@
 #include "App.h"
 
 App::App() : window(nullptr, glfwDestroyWindow),
-             engine(WINDOW_WIDTH, WINDOW_HEIGHT, 8, RENDER_MODE) {
+             engine(WINDOW_WIDTH, WINDOW_HEIGHT, 6, RENDER_MODE) {
     if (RENDER_MODE == false)
     {
         WINDOW_WIDTH = 640;

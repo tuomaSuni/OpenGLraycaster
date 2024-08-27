@@ -20,7 +20,7 @@ private:
 
     bool keys[GLFW_KEY_LAST] = { false };
     static constexpr float MOVEMENT_SPEED = 64;
-    static constexpr float ANGLE_SENSITIVITY = RAD;
+    static constexpr float ANGLE_SENSITIVITY = RAD * 2;
 
     float forwardX;
     float forwardY;

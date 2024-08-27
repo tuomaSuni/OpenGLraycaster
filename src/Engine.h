@@ -24,4 +24,6 @@ private:
     int resolution;
     float staticres;
     float inc;
+
+    float colorvalues[2][3] = {{0.6f, 0.6f, 0.6f}, {0.7f, 0.3f, 0.2f}};
 };

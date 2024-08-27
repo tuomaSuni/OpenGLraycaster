@@ -1,10 +1,10 @@
 #include "Player.h"
 
-Player::Player() : posX(128), posY(128), angle(1.57079633) {
+Player::Player() : posX(96), posY(96), angle(PI / 2) {
     forwardX = cos(angle);
     forwardY = sin(angle);
-    rightX = -sin(angle);
-    rightY = cos(angle);
+    rightX   =-sin(angle);
+    rightY   = cos(angle);
 }
 
 void Player::DetectKeyInputs(int key, int action) {
@@ -84,8 +84,8 @@ void Player::DetectMouseDelta(double xpos, double ypos) {
 
     forwardX = cos(angle);
     forwardY = sin(angle);
-    rightX = -sin(angle);
-    rightY = cos(angle);
+    rightX   =-sin(angle);
+    rightY   = cos(angle);
 }
 
 void Player::Render() {

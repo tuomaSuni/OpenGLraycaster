@@ -15,8 +15,8 @@ public:
     void Terminate();
 private:
 
-    int WINDOW_WIDTH  = 480;
-    int WINDOW_HEIGHT = 480;
+    int WINDOW_WIDTH  = 640;
+    int WINDOW_HEIGHT = 640;
 
     bool RENDER_MODE  = true;
 
