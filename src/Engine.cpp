@@ -20,8 +20,10 @@ void Engine::Render(Grid& grid, Player& player) {
     ra = fmod(ra + 2 * PI, 2 * PI);
     
     if (flag == true) {
-        drawSkyAndGround();
-
+        for (int r = 0; r < render_height / 2; ++r)
+        {
+            drawSkyAndGround(r);
+        }
         for (int r = 0; r < resolution; ++r) {
             drawRayColumn(r, ra, grid, player, true);
             ra += RAD * inc;
@@ -36,21 +38,17 @@ void Engine::Render(Grid& grid, Player& player) {
     }
 }
 
-void Engine::drawSkyAndGround() {
-    glColor3f(0.5f, 0.8f, 0.9f);
-    glBegin(GL_QUADS);
-    glVertex2f(0, 0);
-    glVertex2f(render_width, 0);
-    glVertex2f(render_width, render_height/2);
-    glVertex2f(0, render_height/2);
+void Engine::drawSkyAndGround(int columnIndex) {
+    glColor3f(0.5f+columnIndex*0.002f, 0.8f+columnIndex*0.002f, 0.9f+columnIndex*0.002f);
+    glBegin(GL_LINES);
+    glVertex2f(0, columnIndex);
+    glVertex2f(render_width, columnIndex);
     glEnd();
 
-    glColor3f(0.2f, 0.6f, 0.2f);
-    glBegin(GL_QUADS);
-    glVertex2f(0, render_height/2);
-    glVertex2f(render_width, render_height/2);
-    glVertex2f(render_width, render_width);
-    glVertex2f(0, render_width);
+    glColor3f(0.2f+columnIndex*0.001f, 0.6f+columnIndex*0.001f, 0.2f+columnIndex*0.001f);
+    glBegin(GL_LINES);
+    glVertex2f(0, render_height-columnIndex);
+    glVertex2f(render_width, render_height-columnIndex);
     glEnd();
 }
 

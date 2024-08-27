@@ -1,5 +1,7 @@
 #pragma once
 
+//#include "GL/glew.h"
+
 #include "Grid.h"
 #include "Player.h"
 
@@ -10,7 +12,7 @@ public:
     void Render(Grid& grid, Player& player);
     
 private:
-    void drawSkyAndGround();
+    void drawSkyAndGround(int columnIndex);
     void drawRayColumn(int columnIndex, float angle, const Grid& grid, const Player& player, bool mode);
     float castHorizontalRay(float ra, const Grid& grid, const Player& player, float& hx, float& hy);
     float castVerticalRay(float ra, const Grid& grid, const Player& player, float& vx, float& vy);
