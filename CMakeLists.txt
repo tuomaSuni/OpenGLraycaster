@@ -15,4 +15,4 @@ add_executable(OpenGLraycaster ${SOURCES})
 target_include_directories(OpenGLraycaster PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
 # Specify library directories and link libraries
-target_link_libraries(OpenGLraycaster PRIVATE ${CMAKE_SOURCE_DIR}/lib/libglfw3.a ${CMAKE_SOURCE_DIR}/lib/glew32.lib opengl32)
+target_link_libraries(OpenGLraycaster PRIVATE ${CMAKE_SOURCE_DIR}/lib/libglfw3.a opengl32)
